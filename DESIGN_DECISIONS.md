@@ -1,5 +1,9 @@
 # Decisiones de Diseño y Desafíos
 
+## Repositorios del Proyecto
+- Backend: https://github.com/jarcilac/item-detail-backend
+- Frontend: https://github.com/jarcilac/item-detail-fronted
+
 ## Decisiones de Diseño del Frontend
 
 ### 1. Estructura de Componentes
@@ -94,3 +98,37 @@
 
 **Solución:**
 - Se implementó caché en memoria de datos de productos.
+
+## Project Repositories
+
+### Backend Repository
+- URL: https://github.com/jarcilac/item-detail-backend
+- Description: Spring Boot backend service that provides the product detail API endpoints
+
+### Frontend Repository
+- URL: https://github.com/jarcilac/item-detail-fronted
+- Description: React frontend application that implements the product detail view
+
+## Architecture Decisions
+
+### Backend
+1. **Spring Boot Framework**
+   - Provides robust REST API capabilities
+   - Built-in dependency injection
+   - Easy configuration and setup
+
+2. **File-based Storage**
+   - Uses JSON files for data persistence
+   - Requires absolute path configuration for proper file access
+   - Simple solution for demonstration purposes
+
+### Frontend
+1. **React with TypeScript**
+   - Type safety and better development experience
+   - Component-based architecture
+   - Modern frontend development practices
+
+2. **Material-UI**
+   - Consistent design system
+   - Responsive components
+   - Good accessibility support
