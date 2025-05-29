@@ -24,6 +24,21 @@ java -version
 mvn -version
 ```
 
+4. Configure the products file path:
+   - Open `src/main/resources/application.properties`
+   - Update the `data.products.file` property with the absolute path to your products.json file
+
+Example:
+```properties
+# Windows
+data.products.file=C:/Users/YourUser/Projects/item-detail-backend/src/main/resources/data/products.json
+
+# macOS/Linux
+data.products.file=/Users/YourUser/Projects/item-detail-backend/src/main/resources/data/products.json
+```
+
+> **Important**: You must update this path after cloning the project as it depends on your local system's file structure.
+
 ## Running the Application
 
 ### Development
