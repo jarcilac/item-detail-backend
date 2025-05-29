@@ -4,11 +4,12 @@ import com.example.itemdetailbackend.model.Product;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,15 +19,21 @@ import static java.util.Objects.isNull;
 public class ProductService {
     private List<Product> products;
     private final ObjectMapper objectMapper;
+    private final String productsFilePath;
 
-    public ProductService(ObjectMapper objectMapper) {
+    public ProductService(ObjectMapper objectMapper, @Value("${data.products.file}") String productsFilePath) {
         this.objectMapper = objectMapper;
+        this.productsFilePath = productsFilePath;
     }
 
     @PostConstruct
     public void init() throws IOException {
-        ClassPathResource resource = new ClassPathResource("data/products.json");
-        products = objectMapper.readValue(resource.getInputStream(), new TypeReference<>() { });
+        File file = new File(productsFilePath);
+        if (file.exists()) {
+            products = objectMapper.readValue(file, new TypeReference<>() {});
+        } else {
+            products = new ArrayList<>();
+        }
     }
 
     public Optional<Product> getProductById(int id) {
@@ -48,15 +55,19 @@ public class ProductService {
         }
 
         products.add(product);
-        ClassPathResource resource = new ClassPathResource("data/products.json");
-        File file = resource.getFile();
+        saveToFile();
+    }
 
+    private void saveToFile() throws IOException {
+        File file = new File(productsFilePath);
         if (!file.exists()) {
-            if (!file.getParentFile().mkdirs() && !file.createNewFile()) {
+            if (!file.getParentFile().mkdirs()) {
+                throw new IOException("Could not create directory: " + file.getParentFile().getAbsolutePath());
+            }
+            if (!file.createNewFile()) {
                 throw new IOException("Could not create file: " + file.getAbsolutePath());
             }
         }
-
         objectMapper.writeValue(file, products);
     }
 
